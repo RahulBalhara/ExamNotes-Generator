@@ -3,6 +3,19 @@ import { motion } from "motion/react";
 import { FcGoogle } from "react-icons/fc";
 
 const Auth = () => {
+  const handleGoogleAuth=async()=>{
+    try {
+      const response=await signInWithPopup(auth, provider);
+      const user=response.user;
+      const name=user.displayName;
+      const email=user.email;
+      const photoUrl=user.photoURL;
+      console.log("User Info:", { name, email, photoUrl });
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-black px-4 md:px-6">
       {/* Header */}
@@ -19,7 +32,7 @@ const Auth = () => {
         <p className="text-gray-300 mt-2">
           AI-powered exam-oriented notes generator that creates concise,
           high-quality notes, charts and PDFs in seconds.
-        </p>
+        </p> 
       </motion.header>
 
       {/* Main */}
