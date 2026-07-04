@@ -1,6 +1,10 @@
 import React from "react";
 import { motion } from "motion/react";
 import { FcGoogle } from "react-icons/fc";
+import{signInWithPopup} from "firebase/auth";
+import { auth, provider } from "../utils/firebase.js";
+import { serverUrl } from "../config/config.js";
+import axios from "axios";
 
 const Auth = () => {
   const handleGoogleAuth=async()=>{
@@ -9,9 +13,13 @@ const Auth = () => {
       const user=response.user;
       const name=user.displayName;
       const email=user.email;
-      const photoUrl=user.photoURL;
-      console.log("User Info:", { name, email, photoUrl });
-    } catch (error) {
+      const result=await axios.post(`${serverUrl}/api/auth/google`,
+        {name,email},
+        {withCredentials:true}
+      );
+      console.log("Google sign-in successful:", result.data);
+    } 
+    catch (error) {
       console.error("Error signing in with Google:", error);
     }
   };
@@ -20,10 +28,12 @@ const Auth = () => {
     <div className="min-h-screen bg-gray-50 text-black px-4 md:px-6">
       {/* Header */}
       <motion.header
+    
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="max-w-5xl mx-auto mt-6 rounded-2xl bg-black/90 backdrop-blur-xl border border-white/10 px-6 md:px-8 py-5 shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
+        
       >
         <h1 className="text-2xl font-bold text-white">
           ExamNotes AI
@@ -55,6 +65,7 @@ const Auth = () => {
           </p>
 
           <motion.button
+            onClick={handleGoogleAuth}
             whileHover={{
               scale: 1.05,
               y: -5,
