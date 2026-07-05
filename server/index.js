@@ -24,7 +24,7 @@ app.get("/",(req,res)=>{
     res.send("Hello World my new server running")
 })
 app.use("/api/auth", authRouter)
-app.use("/api/user",authRouter)
+app.use("/api/user",userRouter)
 
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`)
