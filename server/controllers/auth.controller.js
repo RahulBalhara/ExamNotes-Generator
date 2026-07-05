@@ -1,37 +1,34 @@
-import { getToken } from "../utils/token.js";
 import UserModel from "../models/user.model.js";
-export const googleAuth = async (req, res) => {
-try {
-    const { name, email } = req.body;
-    let user = await UserModel.findOne({ email });
+import { getToken } from "../utils/token.js";
 
-    if (!user) {
-      user = await UserModel.create({ name, email });
+export const googleAuth = async(req,res)=>{
+    try {
+        const {name,email}=req.body;
+        //agar user already exists toh usko wapas create mat karna, bas uska token generate karke de dena
+        let user=await UserModel.findOne({email});
+        if(!user){
+            user=await UserModel.create({name,email});
+        }
+        let token=await getToken(user._id);
+        res.cookie("token",token,{
+            httpOnly: true,
+            secure: true,
+        sameSite: "none",
+        path:'/',
+        maxAge: 7*24*60*60*1000 //7 days
+        });
+        return res.status(200).json(user);
+
+    } catch (error) {
+        return res.status(500).json({message: "Error in Google Authentication", error: error.message});
     }
+}
 
-    let token = await getToken(user._id);
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-    return res.status(200).json(user);
-  } catch (err) {
-    return res.status(500).json({ message: `googleSignUp ${err}` });
-  }
-};
-
-export const logOut = async (req, res) => {
-  try {
-    await res.clearCookie("token", {
-      httpOnly: true,
-      secure: false,
-      sameSite: "false",
-      
-    });
-    return res.status(200).json({ message: "Logout Successfully!" });
-  } catch (err) {
-    return res.status(500).json({ message: `logout error : ${err}` });
-  }
-};
+export const logOut = async(req,res)=>{
+    try {
+        await res.clearCookie("token");
+        return res.status(200).json({message: "Logged out successfully"});
+    } catch (error) {
+        return res.status(500).json({message: "Error in logging out", error: error.message});
+    }
+}
