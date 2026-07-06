@@ -4,7 +4,7 @@ import { motion } from "motion/react"
 import img from "../assets/img1.png"
 import Footer from '../components/Footer'
 import { useNavigate } from 'react-router-dom'
-
+import Notes from './Notes'
 const Home = () => {
   const navigate = useNavigate();
   return (
@@ -54,7 +54,7 @@ const Home = () => {
           </motion.div>
 
           <motion.button
-            onClick={()=>navigate("/notes")}
+            onClick={()=>navigate("/Notes")}
               whileHover={{
                 scale: 1.07
               }}

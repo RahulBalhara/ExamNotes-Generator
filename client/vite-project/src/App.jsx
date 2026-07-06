@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import { getCurrentUser } from "./services/api";
-
+import Notes from "./pages/Notes";
 function App() {
   const dispatch = useDispatch();
 
@@ -18,16 +18,21 @@ function App() {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={userData ? <Home /> : <Navigate to="/auth" replace />}
-      />
+  <Route
+    path="/"
+    element={userData ? <Home /> : <Navigate to="/auth" replace />}
+  />
 
-      <Route
-        path="/auth"
-        element={userData ? <Navigate to="/" replace /> : <Auth />}
-      />
-    </Routes>
+  <Route
+    path="/notes"
+    element={userData ? <Notes /> : <Navigate to="/auth" replace />}
+  />
+
+  <Route
+    path="/auth"
+    element={userData ? <Navigate to="/" replace /> : <Auth />}
+  />
+</Routes>
   );
 }
 

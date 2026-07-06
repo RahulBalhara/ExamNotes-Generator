@@ -6,6 +6,7 @@ import axios from 'axios'
 import { serverUrl } from '../config/config.js'
 import { setUserData } from '../redux/userSlice'
 import logo from "../assets/logo.png"
+import Notes from '../pages/Notes.jsx'
 function Footer() {
     const navigate = useNavigate()
      const dispatch = useDispatch()
@@ -59,7 +60,7 @@ function Footer() {
         <div className='text-center'>
             <h1 className='text-sm font-semibold text-white mb-4'>Quick Links</h1>
             <ul className='space-y-2 text-sm'>
-                <li onClick={()=>navigate("/notes")} className='text-gray-300 hover:text-white transition-colors'>
+                <li onClick={()=>navigate("/Notes")} className='text-gray-300 hover:text-white transition-colors'>
                     Notes
                 </li>
                 <li onClick={()=>navigate("/history")} className='text-gray-300 hover:text-white transition-colors'>History</li>
