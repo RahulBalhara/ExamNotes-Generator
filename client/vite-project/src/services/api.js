@@ -1,21 +1,31 @@
 import axios from "axios";
 import { serverUrl } from "../config/config.js";
-import { setUserData } from "../redux/userSlice";
-
+import { setUserData } from "../redux/userSlice.js";
 export const getCurrentUser = async (dispatch) => {
   try {
-    const result = await axios.get(
-      `${serverUrl}/api/user/currentuser`,
-      {
-        withCredentials: true,
-      }
+    let result = await axios.get(serverUrl + "/api/user/currentuser", {
+      withCredentials: true,
+    });
+    console.log("SUCCESS:", result.data);
+    dispatch(setUserData(result.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const generateNotes = async (payload) => {
+  try {
+    const result = await axios.post(
+      serverUrl + "/api/notes/generate-notes",
+      payload,
+      { withCredentials: true }
     );
 
-    console.log("Current User:", result.data);
+    console.log("Generate API:", result.data);
+    return result.data;
 
-    dispatch(setUserData(result.data));
-  } catch (error) {
-    console.log("Current User Error:", error.response?.status);
-    console.log("Current User Error:", error.response?.data);
+  } catch (err) {
+    console.error("Generate Error:", err.response?.data || err.message);
+    throw err; // 🔥 important
   }
 };

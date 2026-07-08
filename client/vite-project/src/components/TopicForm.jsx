@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
+import { generateNotes } from "../services/api.js";
 import { useDispatch } from "react-redux";
-
+import { updateCredits } from "../redux/userSlice.js";
+console.log("generateNotes:", generateNotes);
 
 function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("");
@@ -16,14 +17,97 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState("");
 
-// 
+ const handleSubmit = async () => {
+  if (!topic.trim()) {
+    setError("Please enter a topic");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setError("");
+    setResult(null);
+
+    const response = await generateNotes({
+      topic,
+      classLevel,
+      examType,
+      revisionMode,
+      includeDiagram,
+      includeChart,
+    });
+
+    console.log("FULL RESPONSE:", response);
+
+    const resultData = response?.data?.data || response?.data;
+    const creditLeft =
+      response?.data?.creditLeft ?? response?.creditLeft;
+
+    setResult(resultData);
+
+    if (typeof creditLeft === "number") {
+      dispatch(updateCredits(creditLeft));
+    }
+
+    // reset form
+    setTopic("");
+    setClassLevel("");
+    setExamType("");
+    setIncludeChart(false);
+    setIncludeDiagram(false);
+    setRevisionMode(false);
+
+    setProgress(100);
+    setProgressText("Completed!");
+  } catch (err) {
+    console.error("🔥 Error:", err);
+    setError("Failed to generate notes");
+  } finally {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }
+};
+
+
+  // Fake Smooth Progress Animation
+  // useEffect(() => {
+  //   if (!loading) {
+  //     setProgress(0);
+  //     setProgressText("");
+  //     return;
+  //   }
+
+  //   let value = 0;
+
+  //   const interval = setInterval(() => {
+  //     value += Math.random() * 8;
+
+  //     if (value >= 95) {
+  //       value = 95;
+  //       setProgressText("Almost done...");
+  //       clearInterval(interval);
+  //     } else if (value > 70) {
+  //       setProgressText("Finalizing the notes...");
+  //     } else if (value > 40) {
+  //       setProgressText("Processing content...");
+  //     } else {
+  //       setProgressText("Generating notes...");
+  //     }
+
+  //     setProgress(Math.floor(value));
+  //   }, 700);
+
+  //   return () => clearInterval(interval);
+  // }, [loading]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="rounded-2xl bg-gradient-to-br from-black/90 via-black/80 to-black/90 backdrop-blur-xl border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.75)] p-8 space-y-6 text-white"
     >
-  //    {/* Topic */}
+      {/* Topic */}
       <input
         type="text"
         placeholder="Enter topic (e.g. Web Development)"
@@ -33,7 +117,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white"
       />
 
-   //   {/* Class */}
+      {/* Class */}
       <input
         type="text"
         placeholder="Enter class level (e.g. 12th)"
@@ -43,8 +127,8 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white"
       />
 
-//       {/* Exam */}
-       <input
+      {/* Exam */}
+      <input
         type="text"
         placeholder="Enter exam type (e.g. JEE, NEET)"
         value={examType}
@@ -70,11 +154,11 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
           checked={includeChart}
           onChange={() => !loading && setIncludeChart(!includeChart)}
         />
-     </div>
+      </div>
 
-//       {/* Button */}
-     <motion.button
-        //onClick={handleSubmit}
+      {/* Button */}
+      <motion.button
+        onClick={handleSubmit}
         disabled={loading}
         whileTap={{ scale: 0.97 }}
         className={`w-full mt-4 py-3 rounded-xl font-semibold transition ${
@@ -138,6 +222,4 @@ function Toggle({ label, checked, onChange }) {
   );
 }
 
-
 export default TopicForm;
-
