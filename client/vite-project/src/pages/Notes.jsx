@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import logo from "../assets/logo.png";
 import TopicForm from "../components/TopicForm";
-// import Sidebar from "../components/Sidebar";
-// import FinalResult from "../components/FinalResult";
+import Sidebar from "../components/Sidebar";
+import FinalResult from "../components/FinalResult";
 
 function Notes() {
   const navigate = useNavigate();
@@ -139,10 +139,10 @@ function Notes() {
             className="flex flex-col lg:grid lg:grid-cols-4 gap-6"
           >
             <div className="lg:col-span-1">
-              {/* <Sidebar result={result} /> */}
+              <Sidebar result={result} />
             </div>
             <div className="lg:col-span-3 rounded-2xl bg-white shadow-[0_15px_40px_rgba(0,0,0,0.15)] p-6">
-              {/* <FinalResult result={result} /> */}
+              <FinalResult result={result} />
             </div>
           </motion.div>
         )}
