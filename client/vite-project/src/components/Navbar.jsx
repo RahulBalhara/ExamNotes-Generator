@@ -127,7 +127,7 @@ function Navbar() {
                     shadow-[0_25px_60px_rgba(0,0,0,0.7)]
                     p-4 text-white'>
 
-                       <MenuItem text="History" onClick={()=>{setShowProfile(false);}}/>
+                       <MenuItem text="History" onClick={()=>{setShowProfile(false);navigate("/history");}}/>
                        <div className="h-px bg-white/10 mx-3" />
                        <MenuItem text="sign out" red  onClick={handleSignOut}/>
                        

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import History from "./pages/history";
 import { getCurrentUser } from "./services/api";
 import Notes from "./pages/Notes";
 function App() {
@@ -31,6 +32,11 @@ function App() {
   <Route
     path="/auth"
     element={userData ? <Navigate to="/" replace /> : <Auth />}
+  />
+
+  <Route
+    path="/history"
+    element={userData ? <History /> : <Navigate to="/auth" replace />}
   />
 </Routes>
   );

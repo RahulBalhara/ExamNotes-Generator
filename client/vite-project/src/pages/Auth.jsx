@@ -90,7 +90,7 @@ const Auth = () => {
           </motion.button>
 
           <p className="mt-6 text-gray-700">
-            🎁 <span className="font-semibold">50 FREE Credits</span> on your
+            🎁 <span className="font-semibold">100 FREE Credits</span> on your
             first sign in.
           </p>
 
@@ -107,7 +107,7 @@ const Auth = () => {
         >
           <Feature
             icon="🎁"
-            title="50 Free Credits"
+            title="100 Free Credits"
             desc="Start creating AI notes instantly."
           />
 
