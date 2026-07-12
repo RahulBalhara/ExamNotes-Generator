@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import History from "./pages/history";
+import Pricing from "./pages/Pricing";
 import { getCurrentUser } from "./services/api";
 import Notes from "./pages/Notes";
 function App() {
@@ -37,6 +38,10 @@ function App() {
   <Route
     path="/history"
     element={userData ? <History /> : <Navigate to="/auth" replace />}
+  />
+  <Route
+    path="/pricing"
+    element={userData ? <Pricing /> : <Navigate to="/auth" replace />}
   />
 </Routes>
   );

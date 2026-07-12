@@ -216,7 +216,7 @@ const [activeNoteId, setActiveNoteId] = useState(null);
 
 
         </motion.div>
-      console.log("topics state:", topics);
+
       </div>
 
     </div>
