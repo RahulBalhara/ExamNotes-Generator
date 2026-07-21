@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
-import History from "./pages/history";
+import History from "./pages/History";
 import Pricing from "./pages/Pricing";
 import { getCurrentUser } from "./services/api";
 import Notes from "./pages/Notes";
