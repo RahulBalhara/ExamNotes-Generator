@@ -7,6 +7,8 @@ import History from "./pages/history";
 import Pricing from "./pages/Pricing";
 import { getCurrentUser } from "./services/api";
 import Notes from "./pages/Notes";
+import PaymentSuccess from './pages/PaymentSuccess'
+import PaymentFailed from './pages/PaymentFailed'
 function App() {
   const dispatch = useDispatch();
 
@@ -43,6 +45,8 @@ function App() {
     path="/pricing"
     element={userData ? <Pricing /> : <Navigate to="/auth" replace />}
   />
+  <Route path='/payment-success' element={<PaymentSuccess/>}/>
+  <Route path='/payment-failed' element={<PaymentFailed/>}/>
 </Routes>
   );
 }
